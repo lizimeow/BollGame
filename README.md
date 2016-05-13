@@ -1,4 +1,4 @@
-# 弹球游戏
+# 弹球游戏 (躲避小球)
 
 ### java作业二
 
@@ -12,4 +12,4 @@
 
 游戏结束（碰到小球或者边界）
 
-![](https://github.com/lizimeow/BollGame/blob/master/docs/2.png)
+![](https://github.com/lizimeow/BollGame/blob/master/docs/3.png)
