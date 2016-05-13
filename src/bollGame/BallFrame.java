@@ -3,12 +3,13 @@ package bollGame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,7 +17,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -29,13 +29,13 @@ public class BallFrame extends JFrame {
     private JPanel centerPanel;
     private Timer timer;
     private TimeCount timecount;
-    private JLabel lable;
     public static int mouseX,mouseY; 
     private boolean gameOver = false;
     private boolean lastOver = false;
     private int response;
     double distX, distY, distance;
     private int count;
+    private int frameWidth,frameHeight;
 
     public void setGameOver(boolean go) {
     	this.gameOver = go;
@@ -48,16 +48,13 @@ public class BallFrame extends JFrame {
 	}
 	
 	private void init() {
+		this.frameWidth = 720;
+		this.frameHeight = 650;
 		this.setTitle("KEEP LIFE");  
-        this.setSize(710, 650);  
+        this.setSize(frameWidth, frameHeight);  
         this.setDefaultCloseOperation(3);  
-        this.setLocationRelativeTo(null);  //æ”÷–
-        this.setAlwaysOnTop(true);
-        this.setLayout(new BorderLayout());  
+        this.setLocationRelativeTo(null);  //Â±Ö‰∏≠
         this.getContentPane().setBackground(Color.WHITE);  
-        lable = new JLabel(" ±º‰:");  
-        lable.setForeground(Color.black);  
-        this.add(lable,BorderLayout.SOUTH);  
         this.count = 0;
         
         centerPanel = new JPanel();
@@ -65,9 +62,11 @@ public class BallFrame extends JFrame {
         this.add(centerPanel,BorderLayout.CENTER);
         this.setVisible(true);
        
-        BufferedImage bf = new BufferedImage(40, 40, BufferedImage.TYPE_INT_BGR); 
-        Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(bf, new Point(0, 0), "A");	
+        Image cur = createImage(40,40);
+        cur.getGraphics().fillRect(0,0,40,40);
+        Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cur, new Point(0, 0), "A");	
         centerPanel.setCursor(cursor);
+        
         createBall(BeginDialog.SumNumber);
         start();
        
@@ -99,26 +98,33 @@ public class BallFrame extends JFrame {
           list.add(ball);
 	  }
 	 
-	  //÷ÿ–¥paint
+	  //ÈáçÂÜôpaint
 	  public void paint(Graphics g) {  
-	        // µ˜”√∏∏¿‡µƒpaint∑Ω∑®  
 		   if(!gameOver){
-			   super.paint(g);  
-		       for (int i = 0; i < list.size(); i++) {  
-		            // ¥”ball÷–ªÒ»°—’…´≤¢…Ë÷√  
-		            g.setColor(list.get(i).getcolor());  
-		            // ª≠≥ˆ–°«Ú  
-		            g.fillOval(list.get(i).getX(),list.get(i).getY(), list.get(i).getRadiu(),list.get(i).getRadiu()); 
-		       }
-		      
-		       lable.setText("ƒ„“—º·≥÷£∫"+timecount.showTime());
+			   drawAll();
 		       collision();  
-		       // µ˜”√≈ˆ◊≤∫Ø ˝  
+		       // Ë∞ÉÁî®Á¢∞ÊíûÂáΩÊï∞  
 	        }
-		       
 	    }
+	  public void drawAll(){
+		  Image image = createImage(frameWidth,frameHeight);
+		  Graphics g = image.getGraphics();
+		  g.setColor(Color.white);
+		  g.fillRect(0, 0, frameWidth, frameHeight);
+		  for (int i = 0; i < list.size(); i++) {  
+	            // ‰ªéball‰∏≠Ëé∑ÂèñÈ¢úËâ≤Âπ∂ËÆæÁΩÆ  
+	            g.setColor(list.get(i).getcolor());  
+	            // ÁîªÂá∫Â∞èÁêÉ  
+	            g.fillOval(list.get(i).getX(),list.get(i).getY(), list.get(i).getRadiu(),list.get(i).getRadiu()); 
+	      }
+		  g.setColor(new Color(123,123,123));
+		  g.setFont(new Font("Serif", Font.PLAIN, 30));
+		  g.drawString(timecount.showTime(), 355, 70);
+		  //lable.setText("‰Ω†Â∑≤ÂùöÊåÅÔºö"+timecount.showTime());
+		  this.getGraphics().drawImage(image, 0, 0, null);
+	  }
 	  
-	  //º∆ ±œﬂ≥Ã∆Ù∂Ø
+	  //ËÆ°Êó∂Á∫øÁ®ãÂêØÂä®
 	 public void start(){
 		 timecount = new TimeCount();
 		 timer = new Timer();
@@ -142,30 +148,30 @@ public class BallFrame extends JFrame {
 	 }
 	 
 	 public void isAgain(){
-		response=JOptionPane.showConfirmDialog(this, "ƒ˙¥ÊªÓ¡À"+timecount.showTime()+"√Î, «∑Ò÷ÿ–¬ø™ º”Œœ∑£ø","GAMEOVER",JOptionPane.OK_CANCEL_OPTION);
+		response=JOptionPane.showConfirmDialog(this, "ÊÇ®Â≠òÊ¥ª‰∫Ü"+timecount.showTime()+"Áßí,ÊòØÂê¶ÈáçÊñ∞ÂºÄÂßãÊ∏∏ÊàèÔºü","GAMEOVER",JOptionPane.OK_CANCEL_OPTION);
 		//new BeginDialog();
    	    if (response == 0) {   
             if (list.size() != 0) {  
-                // œ÷Ω´‘≠¿¥µƒ∂‘œÛ¥”∂”¡–÷–“∆≥˝  
+                // Áé∞Â∞ÜÂéüÊù•ÁöÑÂØπË±°‰ªéÈòüÂàó‰∏≠ÁßªÈô§  
                 list.removeAll(list); 
                 gameOver = true;
                 new BeginDialog();
             } 
    	    } else if (response == -1 || response == 1) { 
-       	// »Áπ˚µ„ª˜πÿ±’£¨‘ÚΩ´œﬂ≥Ã∂‘œÛ¥”∂”¡–÷–“∆≥˝  
+       	// Â¶ÇÊûúÁÇπÂáªÂÖ≥Èó≠ÔºåÂàôÂ∞ÜÁ∫øÁ®ãÂØπË±°‰ªéÈòüÂàó‰∏≠ÁßªÈô§  
             list.removeAll(list);  
         } else{
         	System.exit(0);
         }
 	 }
  
-	// ≈ˆ◊≤∫Ø ˝  
+	// Á¢∞ÊíûÂáΩÊï∞  
     private void collision() {  
-        // æ‡¿Î ˝◊È£¨¥Ê¥¢¡Ω–°«Úº‰µƒæ‡¿Î  
+        // Ë∑ùÁ¶ªÊï∞ÁªÑÔºåÂ≠òÂÇ®‰∏§Â∞èÁêÉÈó¥ÁöÑË∑ùÁ¶ª  
         double[][] dis = new double[list.size()][list.size()];  
         for (int i = 0; i < list.size(); i++) {  
             for (int j = 0; j < list.size(); j++) {  
-                // º∆À„¡Ω∏ˆ–°«Úº‰µƒæ‡¿Î  
+                // ËÆ°ÁÆó‰∏§‰∏™Â∞èÁêÉÈó¥ÁöÑË∑ùÁ¶ª  
                 dis[i][j] = Math.sqrt(Math.pow(list.get(i).getX() - list.get(j).getX(),  
                         2) + Math.pow(list.get(i).getY() - list.get(j).getY(), 2));  
             }  
@@ -174,15 +180,15 @@ public class BallFrame extends JFrame {
             for (int j = i + 1; j < list.size(); j++) {  
                 if (dis[i][j] < (list.get(i).getRadiu() + list.get(j).getRadiu()) / 2) {  
                     int t;  
-                    // Ωªªª–°«Úx∑ΩœÚµƒÀŸ∂»  
+                    // ‰∫§Êç¢Â∞èÁêÉxÊñπÂêëÁöÑÈÄüÂ∫¶  
                     t = list.get(i).getVx();  
                     list.get(i).setVx(list.get(j).getVx());  
                     list.get(j).setVx(t);  
-                    // Ωªªª–°«Úy∑ΩœÚµƒÀŸ∂»  
+                    // ‰∫§Êç¢Â∞èÁêÉyÊñπÂêëÁöÑÈÄüÂ∫¶  
                     t = list.get(i).getVy();  
                     list.get(i).setVy(list.get(j).getVy());  
                     list.get(j).setVy(t);  
-                    // »∑∂®≈ˆ◊≤∫Ûµ⁄∂˛∏ˆ–°«ÚµƒŒª÷√  
+                    // Á°ÆÂÆöÁ¢∞ÊíûÂêéÁ¨¨‰∫å‰∏™Â∞èÁêÉÁöÑ‰ΩçÁΩÆ  
                     int x2 = list.get(j).getX() - list.get(i).getX(), y2 = list.get(j)  
                             .getY() - list.get(i).getY();  
                     list.get(j).setX(list.get(i).getX() + x2);  

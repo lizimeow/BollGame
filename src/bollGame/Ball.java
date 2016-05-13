@@ -3,22 +3,22 @@ package bollGame;
 import java.awt.Color;
 
 public class Ball extends Thread {  
-    // ³õÊ¼»¯Ò»Ğ©¶ÔÏóÃû  
+    // åˆå§‹åŒ–ä¸€äº›å¯¹è±¡å  
     private Color color;  
     private int x, y, radiu, vx, vy;  
     private BallFrame bf; 
     private boolean gameOver = false;
     double distX, distY, distance;
     /** 
-     * ¹¹Ôìº¯Êı 
+     * æ„é€ å‡½æ•° 
      *  
-     * @param colorĞ¡ÇòÑÕÉ« 
-     * @param xĞ¡Çòºá×ø±ê 
-     * @param yĞ¡Çò×İ×ø±ê 
-     * @param radiuĞ¡ÇòÖ±¾¶ 
-     * @param vxĞ¡ÇòºáÏòËÙ¶È 
-     * @param vyĞ¡Çò×İÏòËÙ¶È 
-     * @param bfÃæ°å 
+     * @param colorå°çƒé¢œè‰² 
+     * @param xå°çƒæ¨ªåæ ‡ 
+     * @param yå°çƒçºµåæ ‡ 
+     * @param radiuå°çƒç›´å¾„ 
+     * @param vxå°çƒæ¨ªå‘é€Ÿåº¦ 
+     * @param vyå°çƒçºµå‘é€Ÿåº¦ 
+     * @param bfé¢æ¿ 
      */  
     public Ball(Color color, int x, int y, int radiu, int vx, int vy,  
             BallFrame bf) {  
@@ -31,18 +31,18 @@ public class Ball extends Thread {
         this.bf = bf;  
     }  
   
-    // ÖØĞ´run·½·¨  
+    // é‡å†™runæ–¹æ³•  
     public void run() { 
-		super.run();// µ÷ÓÃ¸¸Ààrun·½·¨  
+		super.run();// è°ƒç”¨çˆ¶ç±»runæ–¹æ³•  
 		
         while (!isOver()) { 
 	            ballMove();
 	            try {  
-	                Thread.sleep(10);// ÉèÖÃË¯ÃßÊ±¼äÎª10ms  
+	                Thread.sleep(10);// è®¾ç½®ç¡çœ æ—¶é—´ä¸º10ms  
 	            } catch (InterruptedException e) {  
 	                e.printStackTrace();  
             }  
-            // ÖØ»æ  
+            // é‡ç»˜  
             bf.repaint();  
         }
     }  
@@ -62,9 +62,9 @@ public class Ball extends Thread {
     public void ballMove(){
     	x += vx;  
         y += vy; 
-        // Èç¹ûxÔ½½ç  
+        // å¦‚æœxè¶Šç•Œ  
         if (x <= 0 || x + radiu >= bf.getWidth()) {  
-            vx = -vx;// xËÙ¶È·´Ïò  
+            vx = -vx;// xé€Ÿåº¦åå‘  
             if (x < 0)  
                 x = 0;  
             else if (x > bf.getWidth() - radiu)  
@@ -72,9 +72,9 @@ public class Ball extends Thread {
             else {  
             }  
         }  
-        // Èç¹ûyÔ½½ç  
+        // å¦‚æœyè¶Šç•Œ  
         else if (y <= 0 || y + radiu >= bf.getHeight()) {  
-            vy = -vy;// yËÙ¶È·´Ïò  
+            vy = -vy;// yé€Ÿåº¦åå‘  
             if (y < 0)  
                 y = 0;  
             else if (y > bf.getHeight() - radiu)  

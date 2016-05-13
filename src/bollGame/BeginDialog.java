@@ -24,18 +24,18 @@ public class BeginDialog extends JFrame implements ActionListener {
 	public BeginDialog (){
 		this.setSize(350, 180);  
         this.setDefaultCloseOperation(3); 
-        this.setLocationRelativeTo(null);  //¾ÓÖĞ
+        this.setLocationRelativeTo(null);  //å±…ä¸­
         this.setAlwaysOnTop(true);
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 25)); 
-		lable = new JLabel("ÊäÈëĞ¡ÇòÊıÁ¿£º"); 
+		lable = new JLabel("è¾“å…¥å°çƒæ•°é‡ï¼š"); 
 		lable.setForeground(Color.black);  
-		lable.setFont(new Font("ºÚÌå", Font.PLAIN, 14));
+		lable.setFont(new Font("é»‘ä½“", Font.PLAIN, 14));
 		this.add(lable);
-		jtf= new JTextField(10);
+		jtf= new JTextField("5",10);
 
 		this.add(jtf);
-		btn = new JButton("¿ªÊ¼ÓÎÏ·");
-		btn.setFont(new Font("ºÚÌå", Font.PLAIN, 18));
+		btn = new JButton("å¼€å§‹æ¸¸æˆ");
+		btn.setFont(new Font("é»‘ä½“", Font.PLAIN, 18));
 		btn.setBackground(Color.WHITE);	
 		this.add(btn);
 		btn.addActionListener(this);
@@ -47,7 +47,7 @@ public class BeginDialog extends JFrame implements ActionListener {
 		if (e.getSource() == btn){
 			String str = jtf.getText();
 			if (!Pattern.compile("-?\\d+").matcher(str).matches() || Integer.valueOf(str) == 0){
-				JOptionPane.showMessageDialog(this, "ÊäÈë²»ºÏ·¨£¡");
+				JOptionPane.showMessageDialog(this, "è¾“å…¥ä¸åˆæ³•ï¼");
 				return;
 			}
 			SumNumber = Integer.parseInt(jtf.getText());

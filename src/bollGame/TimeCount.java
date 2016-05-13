@@ -12,7 +12,7 @@ public class TimeCount {
 		res = 0;
 	}
 	
-	//ÖØĞ´update
+	//é‡å†™update
 	public void update(){
 		curMsec=System.currentTimeMillis();
 		res = curMsec-initMsec;	
@@ -20,7 +20,7 @@ public class TimeCount {
 	
 	public String showTime(){
 		String time ;
-		time = String.format("%.1f¡å", res/1000.0);
+		time = String.format("%.1fâ€³", res/1000.0);
 		return time;
 	}
 	
